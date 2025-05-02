@@ -1,21 +1,19 @@
-﻿namespace Dsw2025Ej8.Domain;
+﻿using System.Runtime.CompilerServices;
 
-public class CuentaBancaria
+namespace Dsw2025Ej8.Domain;
+
+public abstract class CuentaBancaria
 {
-    private TipoCuenta _tipo;
+    //private TipoCuenta _tipo; - ELIMINAR!!
     private string _numero;
     private decimal _saldo;
     private Estado _estado;
-    private decimal _tasaDeInteres;
-    private decimal _limiteDeDescubierto;
-    private decimal _comision;
     private string[] _titulares;
 
-    public CuentaBancaria(string numero, decimal saldo, TipoCuenta tipo, string[] titulares)
+    public CuentaBancaria(string numero, decimal saldo, string[] titulares)
     {
         _numero = numero;
         _saldo = saldo;
-        _tipo = tipo;
         _estado = Estado.Activa;
         _titulares = titulares;
     }
@@ -79,44 +77,51 @@ public class CuentaBancaria
         return _titulares;
     }
     #endregion
+    //REFACTORIZAR
 
-    public void Depositar(decimal monto)
-    {
-        if (_tipo == TipoCuenta.CajaDeAhorro)
-        {
-            _saldo += monto;
-        }
-        else if (_tipo == TipoCuenta.CuentaCorriente)
-        {
-            monto -= monto * _comision;
-            _saldo += monto;
-        }
-    }
+    public abstract void Depositar(decimal monto);
 
-    public void Retirar(decimal monto)
-    {
-        if (_tipo == TipoCuenta.CajaDeAhorro)
-        {
-            _saldo -= monto;
-        }
-        else if (_tipo == TipoCuenta.CuentaCorriente)
-        {
-            if (_saldo - monto >= -_limiteDeDescubierto)
-            {
-                _saldo -= monto;
-            }
-            if (_saldo < 0)
-            {
-                _estado = Estado.Suspendida;
-            }
-        }
-    }
+    public abstract void Retirar(decimal monto);
 
-    public void AplicarInteres()
-    {
-        if (_tipo == TipoCuenta.CajaDeAhorro)
-        {
-            _saldo += _saldo * _tasaDeInteres;
-        }
-    }
-}
+#region Funciones viejas
+//public void Depositar(decimal monto)
+//{
+//    if (_tipo == TipoCuenta.CajaDeAhorro)
+//    {
+//        _saldo += monto;
+//    }
+//    else if (_tipo == TipoCuenta.CuentaCorriente)
+//    {
+//        monto -= monto * _comision;
+//        _saldo += monto;
+//    }
+//}
+
+//public void Retirar(decimal monto)
+//{
+//    if (_tipo == TipoCuenta.CajaDeAhorro)
+//    {
+//        _saldo -= monto;
+//    }
+//    else if (_tipo == TipoCuenta.CuentaCorriente)
+//    {
+//        if (_saldo - monto >= -_limiteDeDescubierto)
+//        {
+//            _saldo -= monto;
+//        }
+//        if (_saldo < 0)
+//        {
+//            _estado = Estado.Suspendida;
+//        }
+//    }
+//}
+
+//    public void AplicarInteres()          SOLO CAJA DE AHORRO
+//    {
+//        if (_tipo == TipoCuenta.CajaDeAhorro)
+//        {
+//            _saldo += _saldo * _tasaDeInteres;
+//        }
+//    }
+//} 
+#endregion
