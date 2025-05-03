@@ -10,7 +10,7 @@ namespace Dsw2025Ej8.Domain
 {
     public class CuentaCorriente : CuentaBancaria
     {
-        private decimal _limiteDeDescubierto { get; init; }
+        public decimal _limiteDeDescubierto { get; init; }
         private decimal _comision{ get; set; }
 
         public CuentaCorriente(string numero, decimal saldo, string[] titulares) : base(numero, saldo, titulares)
@@ -21,16 +21,16 @@ namespace Dsw2025Ej8.Domain
 
         public override void Depositar(decimal monto)
         {
-            if (_estado!=Estado.Activa) throw new CuentaInactiva(" No se puede operar con la cuenta | estado: " + _estado.ToString());
-            if (monto <= 0) throw new MontoInvalido(" El monto ingresado no es valido");
+            if (_estado!=Estado.Activa) throw new CuentaNoActiva($"No se puede operar con la cuenta {_estado.ToString()}");
+            if (monto <= 0) throw new MontoNoValido("El monto ingresado no es válido para la operación solicitada");
             monto -= monto * _comision;
             _saldo += monto;
         }
 
         public override void Retirar(decimal monto)
         {
-            if (_estado != Estado.Activa) throw new CuentaInactiva(" No se puede operar con la cuenta | estado: " + _estado.ToString());
-            if (monto <= 0) throw new MontoInvalido(" El monto ingresado no es valido");
+            if (_estado != Estado.Activa) throw new CuentaNoActiva($"No se puede operar con la cuenta {_estado.ToString()}");
+            if (monto <= 0) throw new MontoNoValido("El monto ingresado no es válido para la operación solicitada");
             if (((_saldo + _limiteDeDescubierto)-monto)<0)
             {
                 _estado = Estado.Suspendida;

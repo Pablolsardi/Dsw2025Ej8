@@ -8,13 +8,13 @@ namespace Dsw2025Ej8.Exceptions
 {
     internal class Exceptions
     {
-        public class MontoInvalido : Exception
+        public class MontoNoValido : Exception
         {
-            public MontoInvalido(String mensaje) : base(mensaje) { }
+            public MontoNoValido(String mensaje) : base(mensaje) { }
         }
-        public class CuentaInactiva : Exception
+        public class CuentaNoActiva : Exception
         {
-            public CuentaInactiva(String mensaje) : base(mensaje) { }
+            public CuentaNoActiva(String mensaje) : base(mensaje) { }
         }
         public class SaldoInsuficiente : Exception
         {

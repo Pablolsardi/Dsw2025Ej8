@@ -10,32 +10,32 @@ namespace Dsw2025Ej8.Domain
 {
     public class CajaAhorro : CuentaBancaria
     {
-        private decimal _tasaDeInteres { get; init; }
+        public decimal _tasaDeInteres { get; init; }
 
         public CajaAhorro(string numero, decimal saldo, string[] titulares) : base(numero, saldo, titulares) { }
 
         public override void Depositar(decimal monto)
         {
-            if (_estado!=Estado.Activa) throw new CuentaInactiva(" No se puede operar con la cuenta | estado: " + _estado.ToString());
-            if (monto <=0 ) throw new MontoInvalido(" El monto ingresado no es valido");
+            if (_estado!=Estado.Activa) throw new CuentaNoActiva($"No se puede operar con la cuenta {_estado.ToString()}");
+            if (monto <=0 ) throw new MontoNoValido("El monto ingresado no es válido para la operación solicitada");
             _saldo += monto;
         }
 
         public override void Retirar(decimal monto)
         {
-            if (_estado != Estado.Activa) throw new CuentaInactiva(" No se puede operar con la cuenta | estado: " + _estado.ToString());
-            if (monto <= 0) throw new MontoInvalido(" El monto ingresado no es valido");
+            if (_estado != Estado.Activa) throw new CuentaNoActiva($"No se puede operar con la cuenta {_estado.ToString()}");
+            if (monto <= 0) throw new MontoNoValido("El monto ingresado no es válido para la operación solicitada");
             if ((_saldo - monto) < 0)
             {
                 _estado = Estado.Suspendida;
-                throw new SaldoInsuficiente("La cuenta no posee saldo suficiente para realizar la operacion, la cuenta ha sido suspendida.");
+                throw new SaldoInsuficiente("La cuenta no cuenta con saldo para la operación solicitada. Fue suspendida.");
             }
             _saldo -= monto;
         }
 
         public void AplicarInteres()         
         {
-            if (_estado != Estado.Activa) throw new CuentaInactiva(" No se puede operar con la cuenta | estado: " + _estado.ToString());
+            if (_estado != Estado.Activa) throw new CuentaNoActiva($"No se puede operar con la cuenta {_estado.ToString()}");
             _saldo += _saldo* _tasaDeInteres;
         }
     }
