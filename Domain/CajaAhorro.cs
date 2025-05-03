@@ -1,8 +1,32 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public class Class1
+namespace Dsw2025Ej8.Domain
 {
-	public Class1()
-	{
-	}
+    public class CajaAhorro : CuentaBancaria
+    {
+        private decimal _tasaDeInteres(get;init;);
+
+        public CajaDeAhorro(string numero, decimal saldo, string[] titulares){ }
+
+        public override void Depositar(decimal monto)
+        {
+            _saldo += monto;
+        }
+
+        public override void Retirar(decimal monto)
+        {
+            _saldo -= monto;
+        }
+
+        public void AplicarInteres()         
+        {
+            _saldo += _saldo* _tasaDeInteres;
+        }
+    }
 }
+
+
