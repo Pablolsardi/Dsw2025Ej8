@@ -29,14 +29,14 @@ namespace Dsw2025Ej8.Domain
 
         public override void Retirar(decimal monto)
         {
-            if (_saldo - monto >= -_limiteDeDescubierto)
-            {
-                _saldo -= monto;
-            }
-            if (_saldo < 0)
+            if (_estado != Estado.Activa) throw new CuentaInactiva(" No se puede operar con la cuenta | estado: " + _estado.ToString());
+            if (monto <= 0) throw new MontoInvalido(" El monto ingresado no es valido");
+            if (((_saldo + _limiteDeDescubierto)-monto)<0)
             {
                 _estado = Estado.Suspendida;
+                throw new SaldoInsuficiente("La cuenta no cuenta con saldo para la operación solicitada. Fue suspendida.");
             }
+            _saldo -= monto;
         }
 
     }
