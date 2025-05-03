@@ -8,8 +8,8 @@ namespace Dsw2025Ej8.Domain
 {
     public class CuentaCorriente : CuentaBancaria
     {
-        private decimal _limiteDeDescubierto;
-        private decimal _comision;
+        private decimal _limiteDeDescubierto (get;init;);
+        private decimal _comision (get;set);
 
         public CuentaCorriente(string numero, decimal saldo, string[] titulares) 
         {
